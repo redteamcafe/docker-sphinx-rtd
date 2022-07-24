@@ -1,6 +1,6 @@
 # sphinx-rtd
 
-Docker container image that runs on Ubuntu to deploy a webserver with sphinx and the readthedocs theme.
+Docker container image that runs on Ubuntu to deploy a webserver with sphinx and the Read the Docs theme.
 
 You can use the following script
 
