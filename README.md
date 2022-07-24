@@ -2,7 +2,7 @@
 
 Docker container image that runs on Ubuntu to deploy a webserver with sphinx and the readthedocs theme.
 
-## Getting started
+## Creating the container
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
