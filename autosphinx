@@ -1,0 +1,30 @@
+#!/bin/bash
+
+start() {
+    sphinx-quickstart -q -p sphinx -a redteamcafe -v 0 --sep /docs
+}
+
+stop() {
+    killproc sphinx-autobuild
+}
+
+case "$1" in
+    start)
+       start
+       ;;
+    stop)
+       stop
+       ;;
+    restart)
+       stop
+       start
+       ;;
+    status)
+       # code to check status of app comes here
+       status sphinx-autobuild
+       ;;
+    *)
+       echo "Usage: $0 {start|stop|status|restart}"
+esac
+
+exit 0
