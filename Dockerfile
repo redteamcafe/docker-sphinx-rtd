@@ -27,7 +27,7 @@ RUN if [[ -v PROJECT_NAME ]]; \
   PROJECT_NAME=sphinx ; \
   fi
 #NOTE: This checks for variables for PROJECT_NAME
-  if [[ -v PROJECT_AUTHOR ]] ; \
+RUN if [[ -v PROJECT_AUTHOR ]] ; \
   then \
   echo "Project author is $PROJECT_AUTHOR" \
   else \
