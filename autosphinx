@@ -1,11 +1,11 @@
 #!/bin/bash
 
 start() {
-    sphinx-quickstart -q -p sphinx -a redteamcafe -v 0 --sep /docs
+    sphinx-autobuild -a /docs/$PROJECT_NAME/source/ /docs/$PROJECT_NAME/build/html &>/dev/null
 }
 
 stop() {
-    killproc sphinx-autobuild
+        PID=$(pgrep sphinx-autobuild*) && kill $PID
 }
 
 case "$1" in
@@ -20,7 +20,6 @@ case "$1" in
        start
        ;;
     status)
-       # code to check status of app comes here
        status sphinx-autobuild
        ;;
     *)
