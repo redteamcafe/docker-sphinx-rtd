@@ -4,7 +4,7 @@ FROM ubuntu
 MAINTAINER Christian McLaughlin <info@redteamcafe.com>
 
 #NOTE: Updating and installing required apt packages
-RUN apt update && apt install -y --no-install-recommends \
+RUN apt update && apt install -y --no-install-recommends -o Dpkg::Options::="--force-confdef" \
     git \
     nginx \
     python3-pip \
