@@ -10,8 +10,10 @@ Red Team Cafe is an information technology and security consultation organizatio
 
 ## About this Build
 
-Ubuntu
-Sphinx
+Ubuntu (used as the base image)
+
+Sphinx (required to host the Read the Docs theme)
+
 Read the Docs is a free open-source documentation and hosting platform. Read the Docs can also be hosted locally as a theme using Sphinx. Read the Docs simplifies software documentation by automating building, versioning, and hosting of your docs. 
 
 Currently supported:
