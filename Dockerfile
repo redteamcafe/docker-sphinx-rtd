@@ -3,8 +3,8 @@ FROM ubuntu
 
 MAINTAINER Christian McLaughlin <info@redteamcafe.com>
 
-#NOTE: Updating and installing required apt packages
-RUN apt update && apt install -y --no-install-recommends -o Dpkg::Options::="--force-confdef" \
+#NOTE: Updating and installing required packages
+RUN apt-get update && apt-get install -y --no-install-recommends -o Dpkg::Options::="--force-confdef" \
     git \
     nginx \
     python3-pip \
