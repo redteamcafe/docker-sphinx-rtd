@@ -1,7 +1,7 @@
 #!/bin/bash
 
 start() {
-    sphinx-autobuild -a /docs/$PROJECT_NAME/source/ /docs/$PROJECT_NAME/build/html &>/dev/null
+    sphinx-autobuild -a /docs/$PROJECT_AUTHOR/source/ /docs/$PROJECT_NAME/build/html &>/dev/null
 }
 
 stop() {
