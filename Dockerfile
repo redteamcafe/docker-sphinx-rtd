@@ -43,5 +43,5 @@ RUN if [[ -v PROJECT_NAME ]]; \
 RUN wget -P /etc/init.d https://raw.githubusercontent.com/redteamcafe/docker-sphinx-rtd/main/autosphinx
 RUN chmod +x /etc/init.d/autosphinx
 RUN update-rc.d autosphinx defaults
-#RUN service autosphinx start
+RUN service autosphinx start &
 RUN echo "Done"
