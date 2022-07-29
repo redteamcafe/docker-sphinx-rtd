@@ -3,9 +3,8 @@
 set -e
 
 #NOTE: Start NGINX service
-service nginx start &
+exec service nginx start &
 
 #NOTE: Start autosphinx service
-service autosphinx start &
+exec service autosphinx start &
 
-exit 0
