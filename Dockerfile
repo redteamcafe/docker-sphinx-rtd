@@ -27,7 +27,7 @@ RUN pip install sphinx-rtd-theme
 
 #NOTE: Creates directory based on projects declared in the variable $PROJECT_NAME
 #NOTE: For right now, I only support one project per container but in the future I am looking at incorporating multiple projects
-RUN mkdir /docs/$PROJECT_NAME/
+RUN mkdir -p /docs/$PROJECT_NAME/
 
 #NOTE: This checks for variables for PROJECT_AUTHOR and PROJECT_NAME and initiates Sphinx
 RUN sphinx-quickstart -q -p $PROJECT_NAME -a $PROJECT_AUTHOR -v 0 --sep /docs/$PROJECT_NAME
@@ -39,10 +39,10 @@ RUN update-rc.d autosphinx defaults
 RUN service autosphinx start &
 
 #NOTE: Setting up NGINX root directory
-
 RUN sed -i 's|root /var/www/html;|root /docs/sphinx/build/html;|g' /etc/nginx/sites-available/default
 RUN nginx -t
 RUN service nginx reload
 
+#Setting HTTP port and base project volume
 EXPOSE 80
 VOLUME /docs
