@@ -49,8 +49,14 @@ RUN service nginx start
 RUN update-rc.d nginx defaults
 RUN update-rc.d nginx enable
 
-CMD ./sphinx-rtd_wrapper.sh
-
 #Setting HTTP port and base project volume
 EXPOSE 80
 VOLUME /docs
+
+#NOTE: Create a Docker ENTRYPOINT directory (for future use)
+RUN mkdir /docker-entrypoint.d
+COPY docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+
+CMD ./sphinx-rtd_wrapper.sh
