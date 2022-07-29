@@ -21,11 +21,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 #NOTE: Installing required pip packages
 RUN pip install sphinx-autobuild
 RUN pip install sphinx-rtd-theme
+
+ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 #NOTE: Creates directory based on projects declared in the variable $PROJECT_NAME
 #NOTE: For right now, I only support one project per container but in the future I am looking at incorporating multiple projects
