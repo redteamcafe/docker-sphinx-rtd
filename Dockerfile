@@ -52,3 +52,7 @@ RUN nginx -t
 RUN service nginx reload
 
 RUN echo "Done"
+
+
+EXPOSE 80
+VOLUME /docs
