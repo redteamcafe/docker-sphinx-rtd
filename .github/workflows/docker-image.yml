@@ -19,7 +19,6 @@ jobs:
       run: docker build . -t redteamcafe/sphinx-rtd:1.0.0
     - name: docker push
       run: docker push redteamcafe/sphinx-rtd:1.0.0
-on:
   push:
     branches: [ "test" ]
   pull_request:
