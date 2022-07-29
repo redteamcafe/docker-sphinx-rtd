@@ -56,10 +56,10 @@ RUN mkdir /docker-entrypoint.d
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
-COPY docker_wrapper.sh
-
 #Setting HTTP port and base project volume
 EXPOSE 80
 VOLUME /docs
+
+COPY docker_wrapper.sh docker_wrapper.sh
 
 CMD ./docker_wrapper.sh
