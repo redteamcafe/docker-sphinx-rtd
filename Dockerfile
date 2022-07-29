@@ -48,5 +48,5 @@ RUN service nginx reload
 RUN service nginx start
 
 #Setting HTTP port and base project volume
-EXPOSE 80
+EXPOSE 8080:80
 VOLUME /docs
