@@ -36,15 +36,18 @@ RUN sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /docs/
 #NOTE: Startup
 RUN wget -P /etc/init.d https://raw.githubusercontent.com/redteamcafe/docker-sphinx-rtd/main/autosphinx
 RUN chmod +x /etc/init.d/autosphinx
+RUN service autosphinx start
 RUN update-rc.d autosphinx defaults
-RUN service autosphinx start &
+RUN update-rc.d autosphinx enable
 
 #NOTE: Setting up NGINX root directory
 RUN sed -i 's|root /var/www/html;|root /docs/sphinx/build/html;|g' /etc/nginx/sites-available/default
 RUN nginx -t
 RUN service nginx reload
 RUN service nginx start
+RUN update-rc.d nginx defaults
+RUN update-rc.d nginx enable
 
 #Setting HTTP port and base project volume
-EXPOSE 8080:80
+EXPOSE 80
 VOLUME /docs
