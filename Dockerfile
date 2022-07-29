@@ -4,6 +4,7 @@ FROM ubuntu
 
 MAINTAINER Christian McLaughlin <info@redteamcafe.com>
 
+ENV DEBIAN_FRONTEND noninteractive
 ENV PROJECT_NAME sphinx
 ENV PROJECT_AUTHOR sphinx
 ENV PUID 1000
@@ -20,13 +21,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-sphinx \
     wget
 
-ENV DEBIAN_FRONTEND noninteractive
-
 #NOTE: Installing required pip packages
 RUN pip install sphinx-autobuild
 RUN pip install sphinx-rtd-theme
-
-ENV DEBCONF_NONINTERACTIVE_SEEN true
 
 #NOTE: Creates directory based on projects declared in the variable $PROJECT_NAME
 #NOTE: For right now, I only support one project per container but in the future I am looking at incorporating multiple projects
