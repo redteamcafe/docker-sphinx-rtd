@@ -34,7 +34,8 @@ RUN sphinx-quickstart -q -p $PROJECT_NAME -a $PROJECT_AUTHOR -v 0 --sep /docs/$P
 RUN sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /docs/$PROJECT_NAME/source/conf.py
 
 #NOTE: Startup
-RUN wget -P /etc/init.d https://raw.githubusercontent.com/redteamcafe/docker-sphinx-rtd/main/autosphinx
+# RUN wget -P /etc/init.d https://raw.githubusercontent.com/redteamcafe/docker-sphinx-rtd/main/autosphinx
+COPY autosphinx /etc/init.d/
 RUN chmod +x /etc/init.d/autosphinx
 RUN service autosphinx start
 RUN update-rc.d autosphinx defaults
@@ -47,6 +48,8 @@ RUN service nginx reload
 RUN service nginx start
 RUN update-rc.d nginx defaults
 RUN update-rc.d nginx enable
+
+CMD ./sphinx-rtd_wrapper.sh
 
 #Setting HTTP port and base project volume
 EXPOSE 80
