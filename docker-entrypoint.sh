@@ -1,10 +1,11 @@
 #!/bin/bash
 
-set -e
+touch testfile
+#set -e
 
 #NOTE: Start NGINX service
-exec service nginx start &
+#exec service nginx start &
 
 #NOTE: Start autosphinx service
-exec service autosphinx start &
+#exec service autosphinx start &
 
