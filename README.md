@@ -23,11 +23,24 @@ Currently supported:
 
 ## Docker Compose
 ```
-
+docker run -it -d --name=sphinx-rtd redteamcafe/sphinx-rtd
 ```
 ## Docker CLI
 ```
+version: '3'
 
+services:
+  sphinx-rtd:
+    image: redteamcafe/sphinx-rtd:latest
+    container_name: sphinx-rtd
+    environment:
+      PROJECT_NAME: sphinx
+      PROJECT_AUTHOR: sphinx
+    volumes:
+      - /docs
+    ports:
+      - 8080:80
+    restart: unless-stopped
 ```
 ## Parameters
 | Parameter | Function |
