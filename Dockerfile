@@ -44,4 +44,11 @@ RUN wget -P /etc/init.d https://raw.githubusercontent.com/redteamcafe/docker-sph
 RUN chmod +x /etc/init.d/autosphinx
 RUN update-rc.d autosphinx defaults
 RUN service autosphinx start &
+
+#NOTE: Setting up NGINX root directory
+
+RUN sudo sed -i 's/root /var\/www\/html\;/root /docs\/sphinx\/build\/html\;/g' /etc/nginx/sites-available/default
+RUN nginx -t
+RUN service nginx reload
+
 RUN echo "Done"
