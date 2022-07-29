@@ -16,5 +16,7 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
       run: docker login -u $DOCKER_USER -p $DOCKER_PASS
-    - name: docker build sphinx-rtd
+    - name: docker build
       run: docker build . -t redteamcafe/sphinx-rtd:1.0.0
+    - name: docker push
+      docker push redteamcafe/sphinx-rtd:1.0.0
