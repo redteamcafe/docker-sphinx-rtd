@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #NOTE: Start NGINX
 service nginx start
