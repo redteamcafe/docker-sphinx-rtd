@@ -61,6 +61,6 @@ ENTRYPOINT ["/docker-entrypoint.sh"]
 EXPOSE 80
 VOLUME /docs
 
-# COPY docker_wrapper.sh /
+COPY docker_wrapper.sh /
 
-# CMD /docker_wrapper.sh
+CMD /docker_wrapper.sh
