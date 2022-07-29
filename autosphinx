@@ -1,29 +1,40 @@
 #!/bin/bash
 
-start() {
-    sphinx-autobuild -a /docs/$PROJECT_AUTHOR/source/ /docs/$PROJECT_NAME/build/html &>/dev/null
-}
+### BEGIN INIT INFO
+# Provides:          autosphinx
+# Required-Start:    $all
+# Required-Stop:     
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: Initiates sphinx-autobuild server
+### END INIT INFO
 
-stop() {
-        PID=$(pgrep sphinx-autobuild*) && kill $PID
-}
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DAEMON=/usr/sbin/nginx
+NAME=autosphinx
+DESC=autosphinx
+PROJ=$(ls /docs/)
+SRC=/docs/$PROJ/source
+DST=/docs/$PROJ/build/html
+
+STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
+
+# Try to extract nginx pidfile
+PID=$(pgrep sphinx-autobuild*)
 
 case "$1" in
-    start)
-       start
+    start) sphinx-autobuild -a $SRC $DST > /dev/null
        ;;
     stop)
-       stop
+       kill $PID
        ;;
     restart)
-       stop
-       start
+       $0 stop
+       $0 start
        ;;
     status)
-       status sphinx-autobuild
+       status_of_proc -p && exit 0 || exit $?
        ;;
     *)
        echo "Usage: $0 {start|stop|status|restart}"
 esac
-
-exit 0
