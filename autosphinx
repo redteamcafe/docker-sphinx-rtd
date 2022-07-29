@@ -23,7 +23,7 @@ STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
 PID=$(pgrep sphinx-autobuild*)
 
 case "$1" in
-    start) sphinx-autobuild -a $SRC $DST > /dev/null
+    start) sphinx-autobuild -a $SRC $DST &> /dev/null &
        ;;
     stop)
        kill $PID
