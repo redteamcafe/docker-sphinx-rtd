@@ -10,6 +10,7 @@ SHELL ["/bin/bash", "-c"]
 
 #NOTE: Updating and installing required packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
     git \
     nginx \
     python3-pip \
@@ -22,6 +23,7 @@ RUN pip install sphinx-rtd-theme
 
 #NOTE: Creates directory based on projects declared in the variable $PROJECT_NAME
 #NOTE: For right now, I only support one project per container but in the future I am looking at incorporating multiple projects
+RUN mkdir /docs
 RUN mkdir /docs/$PROJECT_NAME/
 
 #NOTE: This checks for variables for PROJECT_AUTHOR and PROJECT_NAME and initiates Sphinx
