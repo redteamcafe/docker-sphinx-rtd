@@ -63,4 +63,4 @@ VOLUME /docs
 
 COPY docker_wrapper.sh /usr/local/bin/docker_wrapper.sh
 RUN chmod +x /usr/local/bin/docker_wrapper.sh
-CMD ["docker_wrapper.sh"]
+CMD ["bash", "/usr/local/bin/docker_wrapper.sh"]
