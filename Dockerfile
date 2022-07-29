@@ -55,7 +55,7 @@ RUN update-rc.d nginx enable
 RUN mkdir /docker-entrypoint.d
 COPY docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# ENTRYPOINT ["/docker-entrypoint.sh"]
 
 #Setting HTTP port and base project volume
 EXPOSE 80
@@ -63,4 +63,4 @@ VOLUME /docs
 
 COPY docker_wrapper.sh /
 
-CMD /docker_wrapper.sh
+# CMD /docker_wrapper.sh
