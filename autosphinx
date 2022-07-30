@@ -13,9 +13,8 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/sbin/nginx
 NAME=autosphinx
 DESC=autosphinx
-PROJ=$(ls /docs/)
-SRC=/docs/$PROJ/source
-DST=/docs/$PROJ/build/html
+SRC=/docs/source
+DST=/docs/build/html
 
 STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
 
