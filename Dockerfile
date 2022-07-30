@@ -42,7 +42,7 @@ RUN update-rc.d autosphinx defaults
 RUN update-rc.d autosphinx enable
 
 #NOTE: Setting up NGINX root directory
-RUN sed -i 's|root /var/www/html;|root /docs/sphinx/build/html;|g' /etc/nginx/sites-available/default
+RUN sed -i 's|root /var/www/html;|root /docs/build/html;|g' /etc/nginx/sites-available/default
 RUN nginx -t
 RUN service nginx reload
 RUN service nginx start
