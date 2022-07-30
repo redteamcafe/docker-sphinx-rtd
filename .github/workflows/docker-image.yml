@@ -17,9 +17,9 @@ jobs:
       run: docker login -u $DOCKER_USER -p $DOCKER_PASS
     - name: docker build version
       run: docker build . -t redteamcafe/sphinx-rtd:1.0.0
-    - name docker build latest
+    - name: docker build latest
       run: docker build . -t redteamcafe/sphinx-rtd:latest
     - name: docker push version
       run: docker push redteamcafe/sphinx-rtd:1.0.0
-    - name docker ush latest
+    - name: docker ush latest
       run: docker push redteamcafe/sphinx-rtd:latest
