@@ -21,5 +21,5 @@ jobs:
       run: docker build . -t redteamcafe/sphinx-rtd:latest
     - name: docker push version
       run: docker push redteamcafe/sphinx-rtd:1.0.0
-    - name: docker ush latest
+    - name: docker push latest
       run: docker push redteamcafe/sphinx-rtd:latest
