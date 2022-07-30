@@ -53,9 +53,9 @@ RUN update-rc.d nginx enable
 
 #NOTE: Create a Docker ENTRYPOINT directory (for future use)
 ## RUN mkdir /docker-entrypoint.d
-## COPY docker-entrypoint.sh /docker-entrypoint.d
-## RUN chmod +x /docker-entrypoint.d/docker-entrypoint.sh
-## ENTRYPOINT ["bash", "/docker-entrypoint.d/docker-entrypoint.sh"]
+## COPY docker-entrypoint.sh /
+## RUN chmod +x /docker-entrypoint.sh
+## ENTRYPOINT ["/docker-entrypoint.sh"]
 
 #Setting HTTP port and base project volume
 EXPOSE 80
