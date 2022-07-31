@@ -31,7 +31,7 @@ RUN pip install sphinx-rtd-theme
 RUN mkdir -p /docs/
 
 #NOTE: This checks for variables for PROJECT_AUTHOR and PROJECT_NAME and initiates Sphinx
-RUN sphinx-quickstart -q -p $PROJECT_NAME -a $PROJECT_AUTHOR -v 0 --sep /docs/
+RUN sphinx-quickstart -q -p "$PROJECT_NAME" -a "$PROJECT_AUTHOR" -v 0 --sep /docs/
 RUN sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /docs/source/conf.py
 
 #NOTE: Startup
