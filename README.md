@@ -36,10 +36,14 @@ services:
     environment:
       PROJECT_NAME: sphinx
       PROJECT_AUTHOR: sphinx
+      PUID: 1000
+      PGID: 1000
     volumes:
       - /docs
     ports:
       - 8080:80
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
     restart: unless-stopped
 ```
 ## Parameters
