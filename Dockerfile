@@ -30,25 +30,21 @@ RUN pip install sphinx-rtd-theme
 #NOTE: For right now, I only support one project per container but in the future I am looking at incorporating multiple projects
 RUN mkdir -p /docs/
 
-#NOTE: This checks for variables for PROJECT_AUTHOR and PROJECT_NAME and initiates Sphinx
-RUN sphinx-quickstart -q -p "$PROJECT_NAME" -a "$PROJECT_AUTHOR" -v 0 --sep /docs/
-RUN sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /docs/source/conf.py
-
 #NOTE: Startup
 # RUN wget -P /etc/init.d https://raw.githubusercontent.com/redteamcafe/docker-sphinx-rtd/main/autosphinx
 COPY autosphinx /etc/init.d/
 RUN chmod +x /etc/init.d/autosphinx
-RUN service autosphinx start
-RUN update-rc.d autosphinx defaults
-RUN update-rc.d autosphinx enable
+#RUN service autosphinx start
+#RUN update-rc.d autosphinx defaults
+#RUN update-rc.d autosphinx enable
 
 #NOTE: Setting up NGINX root directory
 RUN sed -i 's|root /var/www/html;|root /docs/build/html;|g' /etc/nginx/sites-available/default
 RUN nginx -t
-RUN service nginx reload
-RUN service nginx start
-RUN update-rc.d nginx defaults
-RUN update-rc.d nginx enable
+#RUN service nginx reload
+#RUN service nginx start
+#RUN update-rc.d nginx defaults
+#RUN update-rc.d nginx enable
 
 
 
