@@ -10,6 +10,7 @@ then
 else
   echo "conf.py does NOT exist"
   sphinx-quickstart -q -p "$PROJECT_NAME" -a "$PROJECT_AUTHOR" -v 0 --sep /docs/
+  sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /docs/source/conf.py
 fi
 
 #NOTE: Start NGINX
