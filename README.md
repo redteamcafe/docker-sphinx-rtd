@@ -1,10 +1,10 @@
 [![redteamcafe.com](https://github.com/redteamcafe/docker-temp/raw/main/redteamcafe-logo.png)](https://redteamcafe.com)
 
-Red Team Cafe is an information technology and security consultation organization
+Red Team Cafe is an organization dedicated to information technology and security.
 
+We are proud to bring you one of our docker containers!
 
-
-# [redteamcafe/sphinx-rtd](https://github.com/redteamcafe/docker-sphinx-rtd)
+# [redteamcafe/docker-sphinx/rtd](https://github.com/redteamcafe/docker-sphinx-rtd)
 
 [![Read the Docs](https://read-the-docs-guidelines.readthedocs-hosted.com/_downloads/731c436d154e84ae4d3c2430d62c6020/logo-wordmark-dark.svg)](https://readthedocs.org/)
 
