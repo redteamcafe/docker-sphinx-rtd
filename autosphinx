@@ -13,13 +13,9 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/sbin/nginx
 NAME=autosphinx
 DESC=autosphinx
-PROJ=$(ls -d /sphinx/projects/*)
 PROJ_NUM=$(ls /sphinx/projects | wc -l)
 PROJ_NAME=$(ls /sphinx/projects)
 PROJ_DEF=/sphinx/default
-
-# Create temporary file PROJ.txt
-ls -d /sphinx/projects/* > /sphinx/PROJ.txt
 
 STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
 
