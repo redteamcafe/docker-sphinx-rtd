@@ -5,10 +5,9 @@ FROM ubuntu
 MAINTAINER Christian McLaughlin <info@redteamcafe.com>
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV PROJECT_NAME sphinx
-ENV PROJECT_AUTHOR sphinx
-ENV PUID 1000
-ENV PGID 1000
+ENV FILE_HTML yes
+ENV FILE_PDF no
+ENV FILE_EPUB no
 
 SHELL ["/bin/bash", "-c"] 
 
@@ -27,29 +26,19 @@ RUN pip install sphinx-rtd-theme
 
 #NOTE: Creates directory based on projects declared in the variable $PROJECT_NAME
 #NOTE: For right now, I only support one project per container but in the future I am looking at incorporating multiple projects
-RUN mkdir -p /docs/$PROJECT_NAME/
+RUN mkdir -p /sphinx/projects
 
 #NOTE: This checks for variables for PROJECT_AUTHOR and PROJECT_NAME and initiates Sphinx
-RUN sphinx-quickstart -q -p $PROJECT_NAME -a $PROJECT_AUTHOR -v 0 --sep /docs/$PROJECT_NAME
-RUN sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /docs/$PROJECT_NAME/source/conf.py
+#RUN sphinx-quickstart -q -p $PROJECT_NAME -a $PROJECT_AUTHOR -v 0 --sep /docs/$PROJECT_NAME
+#RUN sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /docs/$PROJECT_NAME/source/conf.py
 
 #NOTE: Startup
 # RUN wget -P /etc/init.d https://raw.githubusercontent.com/redteamcafe/docker-sphinx-rtd/main/autosphinx
 COPY autosphinx /etc/init.d/
 RUN chmod +x /etc/init.d/autosphinx
-RUN service autosphinx start
-RUN update-rc.d autosphinx defaults
-RUN update-rc.d autosphinx enable
-
-#NOTE: Setting up NGINX root directory
-RUN sed -i 's|root /var/www/html;|root /docs/sphinx/build/html;|g' /etc/nginx/sites-available/default
-RUN nginx -t
-RUN service nginx reload
-RUN service nginx start
-RUN update-rc.d nginx defaults
-RUN update-rc.d nginx enable
-
-
+#RUN service autosphinx start
+#RUN update-rc.d autosphinx defaults
+#RUN update-rc.d autosphinx enable
 
 #NOTE: Create a Docker ENTRYPOINT directory (for future use)
 ## RUN mkdir /docker-entrypoint.d
@@ -58,8 +47,8 @@ RUN update-rc.d nginx enable
 ## ENTRYPOINT ["/docker-entrypoint.sh"]
 
 #Setting HTTP port and base project volume
-EXPOSE 80
-VOLUME /docs
+EXPOSE 80 
+VOLUME /sphinx/projects
 
 COPY docker_wrapper.sh /usr/local/bin/docker_wrapper.sh
 RUN chmod +x /usr/local/bin/docker_wrapper.sh
