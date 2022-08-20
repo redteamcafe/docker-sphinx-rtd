@@ -17,8 +17,6 @@ PROJ=$(ls -d /sphinx/projects/*)
 PROJ_NUM=$(ls /sphinx/projects | wc -l)
 PROJ_NAME=$(ls /sphinx/projects)
 PROJ_DEF=/sphinx/default
-SRC=sphinx/projects/$PROJ/source
-DST=sphinx/projects/$PROJ/build/html
 
 # Create temporary file PROJ.txt
 ls -d /sphinx/projects/* > /sphinx/PROJ.txt
