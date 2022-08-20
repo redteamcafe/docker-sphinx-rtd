@@ -2,46 +2,74 @@
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PROJ=$(ls /sphinx/projects/ | tee /var/local/PROJ.txt)
-PROJS=$(ls -A /sphinx/projects/ | grep -o conf.py | uniq)
+PROJS=$(ls -A /sphinx/projects)
 
+echo "==========================="
+echo "STEP: CHECKING FOR PROJECTS"
+echo "==========================="
+echo "starting check for projects in /sphinx/projects"
 if [[ -n "$PROJS" ]]
 then
   echo "projects detected containing"
 else
-  echo "no projects detected"
-  echo "exiting"
-  exit 0
+  echo "this check failed because there are no projects detected in /sphinx/projects"
+  echo "checking to see if there is a new project assigned to be created"
+  if [[ -n "$PROJECT" ]]
+  then
+    echo "No projects were detected but a project $PROJECT is scheduled to be created"
+  else
+    echo "no projects detected in /sphinx/projects and no new projects are queued to be started"
+    echo "please refer to the documentation for this container and check for errors"
+    echo "exiting"
+    exit 0
+  fi
 fi
 
 #NOTE: You can add new projects to an already running Sphinx RTD container.
+echo "============================="
+echo "STEP: SETTING UP NEW PROJECTS"
+echo "============================="
 echo "checking for new projects with assigned variable name=$PROJECT_NAME author=$PROJECT_AUTHOR"
 NEW_PROJ=/sphinx/projects/$PROJECT
-if [[ -f $NEW_PROJ ]]
+if [[ -f "$NEW_PROJ/source/conf/py" ]]
 then
-   echo "detected conf.py for project $PROJECT.... skipping"
+   echo "detected file conf.py for project $PROJECT"
+   echo "skipping $PROJECT"
 else
-  echo "PROJECT $PROJECT does NOT exist"
+  echo "project $PROJECT does NOT exist or there is no conf.py file found for project $PROJECT"
   echo "creating project $PROJECT"
   sphinx-quickstart -q -p "$PROJECT_NAME" -a "$PROJECT_AUTHOR" -v 0 --sep /sphinx/projects/$PROJECT
   sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /sphinx/projects/$PROJECT/conf.py
 fi
 
-echo "checking projects in /sphinx/projects"
-echo "assigning variable PROJ_NUM, PROJ_NAME, and PROJ_DEF"
+echo "=============================="
+echo "STEP: REMOVING DEFAULT PROJECT"
+echo "=============================="
+echo "assigning variable PROJ_NUM"
 PROJ_NUM=$(ls /sphinx/projects | wc -l)
+echo "PROJ_NUM set to $PROJ_NUM"
+echo "assigning variable PROJ_NAME"
 PROJ_NAME=$(ls /sphinx/projects)
-echo "checking to see if /sphinx/default/source/conf.py exists"
-echo "if degault exists, purge"
+echo "PRORJ_NAME set to $PROJ_NAME"
+echo "checking to see if config file /sphinx/default/source/conf.py exists"
+#NOTE: This step is done to clear default as a reset in the even that changes are made and only 1 project exists
 if [[ -f "/sphinx/default/source/conf.py" ]]
 then
-  echo "purging default"
+  echo "conf.py detected, purging /sphinx/default"
   rm -r /sphinx/default
+else
+  echo "conf.py not detected for default"
+fi
+
+echo "================================"
+echo "STEP: GENERATING DEFAULT PROJECT"
+echo "================================"
 echo "checking to see if there are more than 1 project"
 echo "if more than 1 project exists"
 if [[ "$PROJ_NUM" -gt "1" ]]
 then
   echo "more than 1 project detected"
-  echo "running sqphinx-quickstart to generate project default"
+  echo "running sphinx-quickstart to generate project default"
   sphinx-quickstart -q -p sphinx -a sphinx -v 0 --sep /sphinx/default
   sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /sphinx/projects/$PROJECT/conf.py
   echo "copying indest.rst"
@@ -51,10 +79,15 @@ else
 fi
 
 #NOTE: Autosphinx is started first in order to generate necessary HTML files required for the next step with NGINX
+echo "======================"
+echo "STEP: AUTOSPHINX START"
+echo "======================"
 echo "starting autosphinx"
 service autosphinx start
 
-#NOTE: Configuring NGINX
+echo "======================="
+echo "STEP: CONFIGURING NGINX"
+echo "======================="
 echo "setting variable NGINX_CONF"
 NGINX_CONF=$(grep -iRl 'listen 80' /etc/nginx/sites-available)
 echo "configuring nginx"
@@ -64,13 +97,11 @@ then
     sed -i 's|root.*html;|root /sphinx/html;|g' /etc/nginx/sites-available/default
 else
   sleep 0
-#NOTE: This loops exists for something planned later. 
-#  mv $NGINX_CONF /etc/nginx/sites-available/$PROJ_NAME
-#  sed -i 's|root /var/www/html;|root /sphinx/projects/$PROJ_NAME/build/html;|g' /etc/nginx/sites-available/$PROJ_NAME
-# rm -rv !("$PROJ_NAME")
 fi
 
-#NOTE:
+echo "====================================="
+echo "STEP CONFIGURING HTML FILES FOR NGINX"
+echo "====================================="
 echo "purging /sphinx/html"
 rm -r /sphinx/html/*
 if [[ "$PROJ_NUM" -gt "1" ]]
@@ -103,6 +134,9 @@ else
 fi
 
 #NOTE: Start NGINX
+echo "==========================="
+echo "STEP: STARTING NGINX SERVER"
+echo "==========================="
 echo "starting nginx service"
 nginx -t
 service nginx reload
