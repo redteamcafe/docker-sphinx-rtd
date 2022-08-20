@@ -88,9 +88,25 @@ if [[ "$PROJ_NUM" -gt "1" ]]
 then
   echo "configuring /etc/nginx/sites-available/default for DEFAULT"
   sed -i 's|root.*html;|root /sphinx/html;|g' /etc/nginx/sites-available/default
+  echo ""
+  while IFS= read -r LINE;
+    do if [[ -f /sphinx/projects/$LINE/source.conf.py ]];
+    then
+      echo "creating symbolic link for sphinx/projects/$LINE/build/html to /sphinx/html/$LINE"
+      ln -s /sphinx/projects/$LINE/build/html /sphinx/html/$LINE
+    else
+      echo "skipping $LINE"
+    fi;
+    done < /var/local/PROJ.txt
+  while IFS= read -r LINE;
+    do if [[ -f /sphinx/projects/$LINE/source.conf.py ]];
+    then
+      echo "creating hyperlink for $LINE in index.rst for DEFAULT"
+      echo "`$LINE <./$LINE/index.html>`_" >> /sphinx/default/source/index.rst
+    else
+      echo "skipping $LINE"
+    fi; done < /var/local/PROJ.txt
   echo "creating symbolic link for DEFAULT"
-  while IFS= read -r LINE; do ln -s /sphinx/projects/$LINE/build/html /sphinx/html/$LINE; done < /var/local/PROJ.txt
-  while IFS= read -r LINE; do echo "`$LINE <./$LINE/index.html>`_" >> /sphinx/default/source/index.rst; done < /var/local/PROJ.txt
   ln -s /sphinx/default/build/html/index.html /sphinx/html
 else
   echo "configuring /etc/nginx/sites-available/default for $PROJECT"
