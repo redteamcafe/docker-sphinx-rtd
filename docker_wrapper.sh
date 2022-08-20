@@ -1,27 +1,16 @@
 #!/bin/bash
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-PASS=$(ls -d /sphinx/projects)
+PROJ=$(ls /sphinx/projects/ | tee /var/local/PROJ.txt)
+CONF_PY=$(ls -A /sphinx/projects/*/source | grep -o conf.py | uniq)
 
-#NOTE: Checking to see if projects exist
-echo "Running project check"
-if [[ -f "$PASS" ]]
+if [[ "$CONF_PY" -eq "conf.py" ]]
 then
-  echo "PASS"
+  echo "projects detected containing"
 else
-  echo "No projects exist"
+  echo "no projects detected"
+  echo "exiting"
   exit 0
-fi
-
-#NOTE: Checks if the variable PROJ is declared and if not, assings it to projects in "/sphinx/projects"
-echo "checking for /sphinx/projects"
-if [[ -n "$PROJ}" ]];
-then
-   echo "Variable PROJ is assigned $PROJ";
-else
-   echo "Variable PROJ is NOT assigned.";
-   echo "Assigning variable PROJ to /sphinx/projects/";
-   PROJ=$(ls /sphinx/projects/ | tee /var/local/PROJ.txt)
 fi
 
 #NOTE: You can add new projects to an already running Sphinx RTD container.
