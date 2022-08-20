@@ -64,6 +64,7 @@ services:
 ## Parameters
 | Parameter | Function |
 | :----: | --- |
+| `-e PROJECT` | This is the name of the directory that the new project is stored under |
 | `-e PROJECT_NAME` | Name of the Sphinx project |
 | `-e PROJECT_AUTHOR` | Name of the Sphinx project author |
 |HTML| yes or no (DEFAULT: yes) This enables HTML file generation support for projects|
