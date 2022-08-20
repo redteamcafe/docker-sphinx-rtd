@@ -2,9 +2,9 @@
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PROJ=$(ls /sphinx/projects/ | tee /var/local/PROJ.txt)
-CONF_PY=$(ls -A /sphinx/projects/*/source | grep -o conf.py | uniq)
+PROJS=$(ls -A /sphinx/projects/ | grep -o conf.py | uniq)
 
-if [[ "$CONF_PY" -eq "conf.py" ]]
+if [[ -n "$PROJS" ]]
 then
   echo "projects detected containing"
 else
