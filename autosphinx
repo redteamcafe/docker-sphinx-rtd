@@ -19,15 +19,18 @@ PROJ_DEF=/sphinx/default
 
 STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
 
+# This checks to see if PROJ.txt exists
+PROJ=$(ls /sphinx/projects/ | tee /var/local/PROJ.txt)
+
 # Try to extract nginx pidfile
 PID=$(pgrep sphinx-autobuild*)
 
 case "$1" in
     start) sphinx-autobuild -a $SRC $DST &> /dev/null &
     start) if [[ "$PROJ_NUM" -gt "1" ]]
-        then 
+        then
             sphinx-autobuild --port=0 -a $PROJ_DEF/source $PROJ_N/build/html &> /dev/null &
-            while IFS= read -r LINE; do sphinx-autobuild --port=0 -a $LINE/source $LINE/build/html; done < /sphinx/PROJ.txt &> /dev/null &
+            while IFS= read -r LINE; do sphinx-autobuild --port=0 -a $LINE/source $LINE/build/html; done < /var/local/PROJ.txt &> /dev/null &
         else
             sphinx-autobuild -a $SRC $DST &> /dev/null &
         fi
