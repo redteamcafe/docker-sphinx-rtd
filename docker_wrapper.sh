@@ -143,7 +143,7 @@ then
   if [[ -f "/sphinx/projects/$PROJ/source/conf.py" ]]
   then
   echo "configuring /etc/nginx/sites-available/default for $PROJ"
-  sed -i 's|root.*html;|root /sphinx/projects/$PROJ/build/html;|g' /etc/nginx/sites-available/default
+  sed -i "s|root.*html;|root /sphinx/projects/$PROJ/build/html;|g" /etc/nginx/sites-available/default
   else
     echo "no conf.py detected"
   fi
