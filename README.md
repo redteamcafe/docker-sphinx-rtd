@@ -78,10 +78,11 @@ services:
 This image can be used to be used in a number of ways to both generate and 
 
 # Future Contributions and Features
-* Add support for "sphinx-multibuild" to allow for multiple sources for a single project
+* Not really w feature but in the future, the base image is goignt o be shifting from Ubuntu to Alpine in order to be more lightweight
+* Add support for "sphinx-multibuild" to allow for multiple sources for a single project (probably not for a WHILE)
 * Add support for PDF with latexpdf
 * Add support for epub
 * Add support for editing sphinx source in browser
-
+* Replace the sphinx project for default with a dashboard
 
 
