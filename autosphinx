@@ -26,7 +26,6 @@ PROJ=$(ls /sphinx/projects/ | tee /var/local/PROJ.txt)
 PID=$(pgrep sphinx-autobuild*)
 
 case "$1" in
-    start) sphinx-autobuild -a $SRC $DST &> /dev/null &
     start) if [[ "$PROJ_NUM" -gt "1" ]]
         then
             sphinx-autobuild --port=0 -a $PROJ_DEF/source $PROJ_N/build/html &> /dev/null &
