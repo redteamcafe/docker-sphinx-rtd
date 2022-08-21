@@ -4,6 +4,10 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 PROJ=$(ls /sphinx/projects/ | tee /var/local/PROJ.txt)
 PROJS=$(ls -A /sphinx/projects)
 
+echo "=============================================="
+echo "STARTING SPHINX READ THE DOCS BY RED TEAM CAFE"
+echo "=============================================="
+date
 echo "==========================="
 echo "STEP: CHECKING FOR PROJECTS"
 echo "==========================="
@@ -31,7 +35,7 @@ echo "STEP: SETTING UP NEW PROJECTS"
 echo "============================="
 echo "checking for new projects with assigned variable name=$PROJECT_NAME author=$PROJECT_AUTHOR"
 NEW_PROJ=/sphinx/projects/$PROJECT
-if [[ -f "$NEW_PROJ/source/conf/py" ]]
+if [[ -f "$NEW_PROJ/source/conf.py" ]]
 then
    echo "detected file conf.py for project $PROJECT"
    echo "skipping $PROJECT"
