@@ -21,8 +21,8 @@ STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
 sphinx_auto () {
     if [[ "$PROJS" -gt "1" ]]
     then
-        sphinx-autobuild --port=0 -a sphinx/default/source /sphinx/default/build/html
-        while IFS= read -r LINE; do sphinx-autobuild --port=0 -a /sphinx/projects/$LINE/source /sphinx/projects/$LINE/build/html; done < /var/local/PROJ.txt
+        sphinx-autobuild --port=0 -a sphinx/default/source /sphinx/default/build/html &> /dev/null &
+        while IFS= read -r LINE; do bash -c "$(sphinx-autobuild --port=0 -a /sphinx/projects/$LINE/source /sphinx/projects/$LINE/build/html &> /dev/null &)"; done < /var/local/PROJ.txt
     elif [[ "$PROJS" -eq "1" ]]
     then
         sphinx-autobuild -a /sphinx/projects/$PROJ/source /sphinx/projects/$PROJ/build/html
