@@ -10,7 +10,7 @@ echo "==========================="
 echo "starting check for projects in /sphinx/projects"
 if [[ -n "$PROJS" ]]
 then
-  echo "projects detected containing"
+  echo "projects detected in /sphinx/projects"
 else
   echo "this check failed because there are no projects detected in /sphinx/projects"
   echo "checking to see if there is a new project assigned to be created"
