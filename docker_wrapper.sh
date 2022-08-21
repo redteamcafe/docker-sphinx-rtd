@@ -39,7 +39,7 @@ else
   echo "project $PROJECT does NOT exist or there is no conf.py file found for project $PROJECT"
   echo "creating project $PROJECT"
   sphinx-quickstart -q -p "$PROJECT_NAME" -a "$PROJECT_AUTHOR" -v 0 --sep /sphinx/projects/$PROJECT
-  sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /sphinx/projects/$PROJECT/conf.py
+  sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /sphinx/projects/$PROJECT/source/conf.py
 fi
 
 echo "=============================="
