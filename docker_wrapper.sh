@@ -139,6 +139,7 @@ then
   echo "creating symbolic link for DEFAULT"
   ln -s /sphinx/default/build/html/index.html /sphinx/html
 elif [[ "$PROJS" -eq "1" ]]
+then
   if [[ -f "/sphinx/projects/$PROJ/source/conf.py" ]]
   then
   echo "configuring /etc/nginx/sites-available/default for $PROJ"
