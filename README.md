@@ -79,6 +79,7 @@ This image can be used to be used in a number of ways to both generate and
 
 # Future Contributions and Features
 * Not really w feature but in the future, the base image is goignt o be shifting from Ubuntu to Alpine in order to be more lightweight
+* Add support to allow for the container to search in all project conf.py for alabaster theme (or other) and replace with sphinx-rtd-theme
 * Add support for "sphinx-multibuild" to allow for multiple sources for a single project (probably not for a WHILE)
 * Add support for PDF with latexpdf
 * Add support for epub
