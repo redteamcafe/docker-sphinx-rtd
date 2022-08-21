@@ -13,26 +13,28 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 DAEMON=/usr/sbin/nginx
 NAME=autosphinx
 DESC=autosphinx
-PROJ_NUM=$(ls /sphinx/projects | wc -l)
-PROJ_NAME=$(ls /sphinx/projects)
-PROJ_DEF=/sphinx/default
+PROJ=$(ls /sphinx/projects | tee /var/local/PROJ.txt)
+PROJS=$(ls /sphinx/projects | wc -l)
 
 STOP_SCHEDULE="${STOP_SCHEDULE:-QUIT/5/TERM/5/KILL/5}"
 
-# This checks to see if PROJ.txt exists
-PROJ=$(ls /sphinx/projects/ | tee /var/local/PROJ.txt)
+sphinx_auto () {
+    if [[ "$PROJS" -gt "1" ]]
+    then
+        sphinx-autobuild --port=0 -a sphinx/default/source /sphinx/default/build/html
+        while IFS= read -r LINE; do sphinx-autobuild --port=0 -a /sphinx/projects/$LINE/source /sphinx/projects/$LINE/build/html; done < /var/local/PROJ.txt
+    elif
+        sphinx-autobuild -a /sphinx/projects/$PROJ/source /sphinx/projects/$PROJ/build/html
+    else
+        sleep 0
+    fi
+}
 
 # Try to extract nginx pidfile
 PID=$(pgrep sphinx-autobuild*)
 
 case "$1" in
-    start) if [[ "$PROJ_NUM" -gt "1" ]]
-        then
-            sphinx-autobuild --port=0 -a $PROJ_DEF/source $PROJ_N/build/html &> /dev/null &
-            while IFS= read -r LINE; do sphinx-autobuild --port=0 -a $LINE/source $LINE/build/html; done < /var/local/PROJ.txt &> /dev/null &
-        else
-            sphinx-autobuild -a $SRC $DST &> /dev/null &
-        fi
+    start) sphinx_auto &> /dev/null &
        ;;
     stop)
        kill $PID
