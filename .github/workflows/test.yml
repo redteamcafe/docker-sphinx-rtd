@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - 'test'
+    paths-ignore:
+      - '**/.dockerignore'
+      - '**/LICENSE'
+      - '**/README.md'
 #  pull_request:
 #    branches:
 #      - 'test'
