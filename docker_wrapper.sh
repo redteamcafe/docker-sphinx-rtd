@@ -73,7 +73,7 @@ then
   echo "running sphinx-quickstart to generate project default"
   sphinx-quickstart -q -p sphinx -a sphinx -v 0 --sep /sphinx/default
   sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /sphinx/projects/$PROJECT/conf.py
-  echo "copying indest.rst"
+  echo "copying index.rst"
   rm /sphinx/default/source/index.rst && cp /sphinx/index.rst > /sphinx/default/source
 else
   echo "project $PROJ_NAME exists as the only project"
