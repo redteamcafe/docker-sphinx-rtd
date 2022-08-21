@@ -5,10 +5,10 @@ on:
     branches:
       - 'test'
     paths-ignore:
-      - '**/.github'
-      - '**/.dockerignore'
-      - '**/LICENSE'
-      - '**/README.md'
+      - '.github/workflows/**'
+      - '.dockerignore'
+      - 'LICENSE'
+      - '**.md'
 #  pull_request:
 #    branches:
 #      - 'test'
