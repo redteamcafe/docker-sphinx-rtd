@@ -5,6 +5,7 @@ on:
     branches:
       - 'test'
     paths-ignore:
+      - '**/.github'
       - '**/.dockerignore'
       - '**/LICENSE'
       - '**/README.md'
