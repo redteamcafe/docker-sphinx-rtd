@@ -23,7 +23,8 @@ sphinx_auto () {
     then
         sphinx-autobuild --port=0 -a sphinx/default/source /sphinx/default/build/html
         while IFS= read -r LINE; do sphinx-autobuild --port=0 -a /sphinx/projects/$LINE/source /sphinx/projects/$LINE/build/html; done < /var/local/PROJ.txt
-    elif
+    elif [[ "$PROJS" -eq "1" ]]
+    then
         sphinx-autobuild -a /sphinx/projects/$PROJ/source /sphinx/projects/$PROJ/build/html
     else
         sleep 0
