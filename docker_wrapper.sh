@@ -1,8 +1,7 @@
 #!/bin/bash
 
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-PROJ=$(ls /sphinx/projects/ | tee /var/local/PROJ.txt)
-PROJS=$(ls -A /sphinx/projects)
+PROJ=$(ls -A /sphinx/projects | tee /var/local/PROJ.txt)
 
 echo "=============================================="
 echo "STARTING SPHINX READ THE DOCS BY RED TEAM CAFE"
@@ -12,7 +11,7 @@ echo "==========================="
 echo "STEP: CHECKING FOR PROJECTS"
 echo "==========================="
 echo "starting check for projects in /sphinx/projects"
-if [[ -n "$PROJS" ]]
+if [[ -n "$PROJ" ]]
 then
   echo "projects detected in /sphinx/projects"
 else
@@ -46,15 +45,13 @@ else
   sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /sphinx/projects/$PROJECT/source/conf.py
 fi
 
+#NOTE: Updating variables
+PROJ=$(ls -A /sphinx/projects | tee /var/local/PROJ.txt)
+PROJS=$(ls /sphinx/projects | wc -l)
+
 echo "=============================="
 echo "STEP: REMOVING DEFAULT PROJECT"
 echo "=============================="
-echo "assigning variable PROJ_NUM"
-PROJ_NUM=$(ls /sphinx/projects | wc -l)
-echo "PROJ_NUM set to $PROJ_NUM"
-echo "assigning variable PROJ_NAME"
-PROJ_NAME=$(ls /sphinx/projects)
-echo "PRORJ_NAME set to $PROJ_NAME"
 echo "checking to see if config file /sphinx/default/source/conf.py exists"
 #NOTE: This step is done to clear default as a reset in the even that changes are made and only 1 project exists
 if [[ -f "/sphinx/default/source/conf.py" ]]
@@ -70,7 +67,7 @@ echo "STEP: GENERATING DEFAULT PROJECT"
 echo "================================"
 echo "checking to see if there are more than 1 project"
 echo "if more than 1 project exists"
-if [[ "$PROJ_NUM" -gt "1" ]]
+if [[ "$PROJS" -gt "1" ]]
 then
   echo "more than 1 project detected"
   echo "running sphinx-quickstart to generate project default"
@@ -103,16 +100,25 @@ else
   sleep 0
 fi
 
+echo "=================="
+echo "STEP: PURGING HTML"
+echo "=================="
+if [[ -n "$(ls -A /sphinx/html)" ]]
+then
+  echo "purging /sphinx/html"
+  rm -r /sphinx/html/*
+else
+  echo "no files in /sphinx/html"
+fi
+
 echo "====================================="
 echo "STEP CONFIGURING HTML FILES FOR NGINX"
 echo "====================================="
-echo "purging /sphinx/html"
-rm -r /sphinx/html/*
-if [[ "$PROJ_NUM" -gt "1" ]]
+if [[ "$PROJS" -gt "1" ]]
 then
   echo "configuring /etc/nginx/sites-available/default for DEFAULT"
   sed -i 's|root.*html;|root /sphinx/html;|g' /etc/nginx/sites-available/default
-  echo ""
+  echo "/etc/nginx/sites-available/default configured for DEFAULT"
   while IFS= read -r LINE;
     do if [[ -f /sphinx/projects/$LINE/source.conf.py ]];
     then
@@ -132,9 +138,17 @@ then
     fi; done < /var/local/PROJ.txt
   echo "creating symbolic link for DEFAULT"
   ln -s /sphinx/default/build/html/index.html /sphinx/html
+elif [[ "$PROJS" -eq "1" ]]
+  if [[ -f "/sphinx/projects/$PROJ/source/conf.py" ]]
+  then
+  echo "configuring /etc/nginx/sites-available/default for $PROJ"
+  sed -i 's|root.*html;|root /sphinx/projects/$PROJ/build/html;|g' /etc/nginx/sites-available/default
+  else
+    echo "no conf.py detected"
+  fi
 else
-  echo "configuring /etc/nginx/sites-available/default for $PROJECT"
-  sed -i 's|root.*html;|root /sphinx/projects/$PROJ_NAME/build/html;|g' /etc/nginx/sites-available/default
+  echo "no projects"
+  exit 0
 fi
 
 #NOTE: Start NGINX
