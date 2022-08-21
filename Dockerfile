@@ -27,6 +27,7 @@ RUN pip install sphinx-rtd-theme
 #NOTE: Creating required directories
 RUN mkdir -p /sphinx/projects
 RUN mkdir -p /sphinx/html
+COPY index.rst /sphinx/index.rst
 
 #NOTE: This checks for variables for PROJECT_AUTHOR and PROJECT_NAME and initiates Sphinx
 #RUN sphinx-quickstart -q -p $PROJECT_NAME -a $PROJECT_AUTHOR -v 0 --sep /docs/$PROJECT_NAME
