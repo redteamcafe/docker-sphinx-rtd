@@ -137,7 +137,7 @@ then
       echo "skipping $LINE"
     fi; done < /var/local/PROJ.txt
   echo "copying default html files"
-  cp -r /sphinx/default/build/html/* /sphinx/html
+  cp -r /sphinx/default/build/html/ /sphinx/html
 elif [[ "$PROJS" -eq "1" ]]
 then
   if [[ -f "/sphinx/projects/$PROJ/source/conf.py" ]]
