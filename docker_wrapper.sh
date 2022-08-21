@@ -72,9 +72,9 @@ then
   echo "more than 1 project detected"
   echo "running sphinx-quickstart to generate project default"
   sphinx-quickstart -q -p sphinx -a sphinx -v 0 --sep /sphinx/default
-  sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /sphinx/projects/$PROJECT/conf.py
+  sed -i "s|html_theme = 'alabaster'|html_theme = 'sphinx_rtd_theme'|g" /sphinx/projects/default/conf.py
   echo "copying index.rst"
-  rm /sphinx/default/source/index.rst && cp /sphinx/index.rst > /sphinx/default/source
+  rm /sphinx/default/source/index.rst && cp /sphinx/index.rst /sphinx/default/source
 else
   echo "project $PROJ_NAME exists as the only project"
 fi
@@ -120,7 +120,7 @@ then
   sed -i 's|root.*html;|root /sphinx/html;|g' /etc/nginx/sites-available/default
   echo "/etc/nginx/sites-available/default configured for DEFAULT"
   while IFS= read -r LINE;
-    do if [[ -f /sphinx/projects/$LINE/source.conf.py ]];
+    do if [[ -f /sphinx/projects/$LINE/source/conf.py ]];
     then
       echo "creating symbolic link for sphinx/projects/$LINE/build/html to /sphinx/html/$LINE"
       ln -s /sphinx/projects/$LINE/build/html /sphinx/html/$LINE
@@ -136,8 +136,8 @@ then
     else
       echo "skipping $LINE"
     fi; done < /var/local/PROJ.txt
-  echo "creating symbolic link for DEFAULT"
-  ln -s /sphinx/default/build/html/index.html /sphinx/html
+  echo "copying default html files"
+  cp -r /sphinx/default/build/html/* /sphinx/html
 elif [[ "$PROJS" -eq "1" ]]
 then
   if [[ -f "/sphinx/projects/$PROJ/source/conf.py" ]]
