@@ -10,13 +10,17 @@ We are proud to bring you one of our docker containers!
 
 ## About this Build
 
-* **Ubuntu** - This docker container is built on our base image of Ubuntu (in the future we are looking to change this to Alpine which is more lightweight).
-* **Sphinx** - Sphinx is a free and open-source documentation generator that is written in Python. Sphinx utilized markdown language to write documents in reStructuredText files and then converts these to other formats such as HTML (for hosting on a webserver) as well as PDF and EPub. Sphinx is widely used for documenting code but can be used for anything to do with technical writing.
-* **Read the Docs** - Read the Docs is essentially just a theme skinned for Sphinx that is widely used by technical writers and programmers. This allows documentation to be hosted locally instead of on Read the Docs servers.
-* **Sphinx Autobuild** - This Python package is ran as a service in the Docker container. When enabled, it generates a server that monitors the source directory of the project. Whenever a change is detected, the source files are automatically built.
-* **NGINX** - The webserver that hosts the HTML documentation files.
-* 
-Read the Docs is a free open-source documentation and hosting platform. Read the Docs can also be hosted locally as a theme using Sphinx. Read the Docs simplifies software documentation by automating building, versioning, and hosting of your docs. 
+RedTeamCafe brings ReadTheDocs (a Sphinx theme) to Docker!
+
+
+
+* **Sphinx** is a popular documentation tool for Python projects, but it can be used for other programming languages as well. Sphinx makes it easy to create beautiful, easy-to-navigate documentation for your project, with support for HTML, PDF, and other output formats. Sphinx uses reStructuredText, a markup language that is similar to Markdown, to format and structure the documentation.
+
+* **Read the Docs** is a popular hosting platform for Sphinx documentation. It makes it easy to build and host documentation for your project, with features like versioning, search, and easy integration with GitHub and other source code repositories. With Read the Docs, you can publish your documentation online and make it available to your users with just a few clicks.
+
+* **Nginx** is a high-performance, open-source web server software that can handle high traffic loads with low memory usage. It can serve as a web server, reverse proxy, load balancer, and HTTP cache, and supports multiple protocols including HTTP, HTTPS, SMTP, POP3, and IMAP. Its event-driven, asynchronous architecture makes it efficient at handling concurrent connections, and it can be extended with third-party modules to add additional functionality.
+
+* **Sphinx Autobuild** is a Python tool that provides live reloading and rebuilding of Sphinx documentation. It allows you to view changes to your documentation in real-time as you make them, without the need to manually rebuild and refresh your browser. With Sphinx Autobuild, you can quickly iterate on your documentation and see the results immediately. It also includes a built-in web server, making it easy to view your documentation in a browser. Sphinx Autobuild is particularly useful for larger projects with complex documentation, as it can save a significant amount of time and effort during the documentation development process.
 
 Currently supported:
 * x86-64
