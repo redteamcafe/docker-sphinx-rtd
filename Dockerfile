@@ -1,63 +1,34 @@
-#NOTE: This image uses Ubuntu as the source image available from Docker Hub
+FROM alpine:latest
 
-FROM ubuntu
+# Create docs directory and set as environment variable
+ENV DOCS_DIR=/docs
+RUN mkdir -p $DOCS_DIR
 
-MAINTAINER Christian McLaughlin <info@redteamcafe.com>
-
-ENV DEBIAN_FRONTEND noninteractive
-ENV PROJECT_NAME sphinx
-ENV PROJECT_AUTHOR sphinx
-ENV PUID 1000
-ENV PGID 1000
-ENV DOCS docs
-
-SHELL ["/bin/bash", "-c"] 
-
-#NOTE: Updating and installing required packages
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
+# Install necessary packages
+RUN apk update && \
+    apk add --no-cache \
+    python3 \
+    py3-pip \
     git \
+    make \
     nginx \
-    python3-pip \
-    python3-sphinx \
-    wget
+    supervisor
 
-#NOTE: Installing required pip packages
-RUN pip install sphinx-autobuild
-RUN pip install sphinx-rtd-theme
+# Install Sphinx and Readthedocs theme
+RUN pip3 install sphinx sphinx_rtd_theme sphinx-autobuild
 
-#NOTE: Creates directory based on projects declared in the variable $PROJECT_NAME
-#NOTE: For right now, I only support one project per container but in the future I am looking at incorporating multiple projects
-RUN mkdir -p /docs/
+# Clone Sphinx documentation repository
+RUN git clone https://github.com/yourusername/your-repo.git $DOCS_DIR
 
-#NOTE: Startup
-# RUN wget -P /etc/init.d https://raw.githubusercontent.com/redteamcafe/docker-sphinx-rtd/main/autosphinx
-COPY autosphinx /etc/init.d/
-RUN chmod +x /etc/init.d/autosphinx
-#RUN service autosphinx start
-#RUN update-rc.d autosphinx defaults
-#RUN update-rc.d autosphinx enable
+# Configure Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 
-#NOTE: Setting up NGINX root directory
-RUN sed -i 's|root /var/www/html;|root /docs/build/html;|g' /etc/nginx/sites-available/default
-RUN nginx -t
-#RUN service nginx reload
-#RUN service nginx start
-#RUN update-rc.d nginx defaults
-#RUN update-rc.d nginx enable
+# Configure supervisord
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
+# Build Sphinx documentation
+RUN cd $DOCS_DIR && \
+    sphinx-build -b html . _build/html
 
-
-#NOTE: Create a Docker ENTRYPOINT directory (for future use)
-## RUN mkdir /docker-entrypoint.d
-## COPY docker-entrypoint.sh /
-## RUN chmod +x /docker-entrypoint.sh
-## ENTRYPOINT ["/docker-entrypoint.sh"]
-
-#Setting HTTP port and base project volume
-EXPOSE 80
-VOLUME /docs
-
-COPY docker_wrapper.sh /usr/local/bin/docker_wrapper.sh
-RUN chmod +x /usr/local/bin/docker_wrapper.sh
-CMD ["bash", "/usr/local/bin/docker_wrapper.sh"]
+# Start supervisord
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
