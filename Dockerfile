@@ -2,11 +2,10 @@ FROM alpine:latest
 
 # Create docs directory and set as environment variable
 ENV DOCS_DIR=/docs
+ENV PROJECT_NAME=project
+ENV PROJECT_AUTHOR=author
+ENV PROJECT_RELEASE=1.0
 RUN mkdir -p $DOCS_DIR
-
-# Define project name and author
-ENV PROJECT_NAME="My Project"
-ENV PROJECT_AUTHOR="John Doe"
 
 # Install necessary packages
 RUN apk update && \
@@ -24,6 +23,7 @@ RUN pip3 install sphinx sphinx_rtd_theme sphinx-autobuild
 # Clone Sphinx documentation repository if DOCS_DIR is empty
 RUN if [ -z "$(ls -A $DOCS_DIR)" ]; then \
     sphinx-quickstart --project="$PROJECT_NAME" --author="$PROJECT_AUTHOR" \
+    --version="$PROJECT_RELEASE" \
     --sep --extensions=autoapi.extension \
     --extensions=sphinx.ext.autosectionlabel \
     --extensions=sphinx.ext.napoleon \
