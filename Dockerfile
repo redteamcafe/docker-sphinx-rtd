@@ -35,6 +35,8 @@ RUN if [ ! -f "$DOCS/source/conf.py" ]; then \
     --extensions=sphinx.ext.napoleon \
     --extensions=sphinx.ext.viewcode \
     --extensions=sphinx_rtd_theme; \
+else \
+    echo "conf.py already exists. Skipping sphinx-quickstart"; \
 fi
 
 # Configure Nginx
