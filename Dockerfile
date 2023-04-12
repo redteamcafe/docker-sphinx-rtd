@@ -24,33 +24,13 @@ RUN apk update && \
 # Install Sphinx and Readthedocs theme
 RUN pip3 install sphinx sphinx_rtd_theme sphinx-autobuild
 
-# Clone Sphinx documentation repository if DOCS is empty
-RUN if [ ! -f "$DOCS/source/conf.py" ]; then \
-    sphinx-quickstart -q \
-    --p "$PROJECT_NAME" \
-    -a "$PROJECT_AUTHOR" \
-    -v "$PROJECT_RELEASE" \
-    --sep $DOCS \
-    --extensions=sphinx.ext.autosectionlabel \
-    --extensions=sphinx.ext.napoleon \
-    --extensions=sphinx.ext.viewcode \
-    --extensions=sphinx_rtd_theme; \
-else \
-    echo "conf.py already exists. Skipping sphinx-quickstart"; \
-fi
-
 # Configure Nginx
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Configure supervisord
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Build Sphinx documentation
-RUN cd $DOCS && \
-    sphinx-autobuild . _build/html
-
-# Set permissions for PUID and PGID
-RUN chown -R $PUID:$PGID $DOCS
-
-# Start supervisord
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+# Run quickstart if conf.py doesn't exist
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+CMD ["/start.sh"]
