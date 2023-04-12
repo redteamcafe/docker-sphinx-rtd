@@ -5,6 +5,8 @@ ENV DOCS_DIR=/docs
 ENV PROJECT_NAME=project
 ENV PROJECT_AUTHOR=author
 ENV PROJECT_RELEASE=1.0
+ENV PUID=1000
+ENV PGID=1000
 RUN mkdir -p $DOCS_DIR
 
 # Install necessary packages
@@ -43,6 +45,9 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Build Sphinx documentation
 RUN cd $DOCS_DIR && \
     sphinx-autobuild . _build/html
+
+# Set permissions for PUID and PGID
+RUN chown -R $PUID:$PGID $DOCS_DIR
 
 # Start supervisord
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
