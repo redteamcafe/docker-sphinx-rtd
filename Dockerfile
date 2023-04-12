@@ -32,7 +32,7 @@ RUN if [ -z "$(ls -A $DOCS)" ]; then \
     --extensions=sphinx.ext.autosectionlabel \
     --extensions=sphinx.ext.napoleon \
     --extensions=sphinx.ext.viewcode \
-    --extensions=sphinx_rtd_theme;
+    --extensions=sphinx_rtd_theme; \
 fi
 
 # Configure Nginx
