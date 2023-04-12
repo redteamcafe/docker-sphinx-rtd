@@ -29,6 +29,8 @@ RUN if [ -z "$(ls -A $DOCS_DIR)" ]; then \
     --extensions=sphinx.ext.napoleon \
     --extensions=sphinx.ext.viewcode \
     --extensions=sphinx_rtd_theme \
+    --sourcedir=source --no-batchfile \
+    --confdir=source --no-makefile \
     $DOCS_DIR; \
 fi
 
