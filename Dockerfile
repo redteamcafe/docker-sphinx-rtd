@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-MAINTAINER Christian McLaughlin <info@redteamcafe.com>
+#MAINTAINER Christian McLaughlin <info@redteamcafe.com>
 
 # Create docs directory and set as environment variable
 ENV DOCS=/docs
