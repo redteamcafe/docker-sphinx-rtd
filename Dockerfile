@@ -23,10 +23,11 @@ RUN apk update && \
 RUN pip3 install sphinx sphinx_rtd_theme sphinx-autobuild
 
 # Clone Sphinx documentation repository if DOCS is empty
-RUN sphinx-quickstart -q \
-    --project="$PROJECT_NAME" \
-    --author="$PROJECT_AUTHOR" \
-    --version="$PROJECT_RELEASE" \
+RUN if [ ! -f "$DOCS/source/conf.py" ]; then \
+    sphinx-quickstart -q \
+    --p "$PROJECT_NAME" \
+    -a "$PROJECT_AUTHOR" \
+    -v "$PROJECT_RELEASE" \
     --sep $DOCS \
     --extensions=sphinx.ext.autosectionlabel \
     --extensions=sphinx.ext.napoleon \
